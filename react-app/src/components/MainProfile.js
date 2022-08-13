@@ -1,81 +1,71 @@
-import { Paper } from '@material-ui/core'
-import useStyles from "../styles/useStyles"
-import Grid from '@material-ui/core/Grid';
-import UserProfile from './UserProfile';
-import UserTokens from './UserTokens'
-import APIResponse from './APIResponse.js'
-import { useState } from 'react'
+import { Paper } from "@material-ui/core";
+import useStyles from "../styles/useStyles";
+import { useMsal } from '@azure/msal-react'
+import Grid from "@material-ui/core/Grid";
+import UserProfile from "./UserProfile";
+import UserTokens from "./UserTokens";
+import APIResponse from "./APIResponse.js";
+import { useEffect, useState } from "react";
 
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 
-const MainProfile = () => {
-    const classes = useStyles()
-    const [accToken, setaccToken] = useState([])
+const MainProfile = (props) => {
+  const classes = useStyles();
+  const [accToken, setaccToken] = useState('');
+  const [idToken, setIdToken] = useState(props.idToken);
 
-    const UpdateAccTokens = (accessToken) => {
-        console.log('Recd access token in main page: ' + accessToken)
-        setaccToken(accessToken)
+  useEffect(() => {
+    if (props.idToken){
+        setIdToken(props.idToken)
     }
+  }, [props.idToken])
+  
+  const UpdateAccTokens = (idToken, accToken) => {
 
-    
-    return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Grid container justify="center" spacing={3}>
-            <Grid item>
-                <Paper justify="center" elevation={5}  className={classes.paper}>
-                    <Box
-                        width={300}  
-                        justifyContent="flex-start" 
-                        m={2} p={1}
-                        alignItems="flex-start"
-                        minHeight="100vh">
-                        <UserProfile ></UserProfile>
-                    </Box>
-                </Paper>
-            </Grid>
+    setaccToken(accToken);
+    setIdToken(idToken)
+  };
 
-            <Grid  item>
-            <Paper justify="center" elevation={5}  className={classes.paper}>
-                    <Box 
-                        width={300} 
-                        justifyContent="flex-start" 
-                        m={2} p={1}
-                        alignItems="flex-start"
-                        minHeight="100vh"
-                        >
-                        <UserTokens onAcquireToken={UpdateAccTokens}></UserTokens>
-                    </Box>
-                </Paper>
-            </Grid>
-            
-            <Grid  item>
-                <Paper justify="center" elevation={5} className={classes.paper}>
-                    <Box 
-                        width={500} 
-                        justifyContent="flex-start" 
-                        m={2} p={1}
-                        alignItems="flex-start"
-                        minHeight="100vh">
-                        <APIResponse token={accToken}></APIResponse>
-                    </Box>
-                    {/* {accToken? 
-                        <div 
-                        className="nobreak" 
-                        style={{maxHeight: 200, width: 400, overflow: 'auto'}}> 
-                        {accToken}
-                        </div>
-                        : 
-                        <p>No token</p>
-                    } */}
-                </Paper>
-            </Grid>
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
 
 
-          </Grid>
-      </Grid>
-    </Grid>
-    )
-}
 
-export default MainProfile
+
+
+
+      <div style={{flexGrow: 0}}>
+        <Paper justify="center" elevation={5} className={classes.paper}>
+          <Box
+            // width={250}
+            justifyContent="flex-start"
+            m={2}
+            p={1}
+            alignItems="flex-start"
+            // minHeight="70vh"
+          >
+            <UserProfile idToken={idToken}></UserProfile>
+          </Box>
+        </Paper>
+      </div>
+
+      <div style={{flexGrow: 1}}>
+        <Paper justify="center" elevation={5} className={classes.paper}>
+          <Box
+            // width={300}
+            justifyContent="flex-start"
+            m={2}
+            p={1}
+            alignItems="flex-start"
+            // minHeight="70vh"
+          >
+            <UserTokens onAcquireToken={UpdateAccTokens}></UserTokens>
+            <APIResponse token={accToken}></APIResponse>
+          </Box>
+        </Paper>
+      </div>
+    </div>
+  );
+};
+
+export default MainProfile;

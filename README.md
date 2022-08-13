@@ -11,7 +11,7 @@ This repo consists of two separate projects.
 
 The React JS SPA is based on [this](https://github.com/gopal-amlekar/adb2c-react-sign-in-signout) project which implements user sign-in, sign-out functionalities offered by the [AD B2C](https://azure.microsoft.com/en-in/services/active-directory/external-identities/b2c/#features). It uses Microsoft Authentication Library  for React ([msal-react](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-react)) to enable user authentication using Azure Active Directory B2C. You can find more details about this in [this](https://www.iotality.com/azure-adb2c-react-app) post on my blog.
 
-The original app in that blog post is now extended with ability to obtain access token (and ID token) from Azure AD B2C and then call a backend API usng the token as means of authorization.
+This app adds ability to obtain access token (and ID token) from Azure AD B2C and then call a backend API usng the token as means of authorization.
 
 **Web API**
 

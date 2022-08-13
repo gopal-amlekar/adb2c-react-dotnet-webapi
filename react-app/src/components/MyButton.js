@@ -2,18 +2,15 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button';
 
 const MyButton = ({ color, variant, text, onClick}) => {
-    
-    
-    
     return (
-        <Button variant="contained" variant = {variant} color={color} onClick={onClick}> {text}</Button>
+        <Button variant = {variant} color={color} onClick={onClick}> {text}</Button>
     
     )}
 
     MyButton.defaultProps = {
     color: "inherit",
-    text: 'Hello',
-    variant: "text",
+    text: 'Button',
+    variant: "contained",
 }
 
 MyButton.propTypes = {

@@ -31,14 +31,14 @@ function UserTokens ({ onAcquireToken }) {
     }
     else{
       setTokenStatus("Authenticating user before acquiring token\n")
-      const result = instance.acquireTokenPopup(tokenRequest).then(response => {
+      instance.acquireTokenPopup(tokenRequest).then(response => {
         if (response.accessToken)  {
           console.log('Token Response: ', response)
           setidToken(response.idToken)
           setaccToken(response.accessToken)
 
           setTokenStatus("Acquired Token")
-          onAcquireToken(response.accessToken)
+          onAcquireToken(response.idToken, response.accessToken)
 
           //callAPI(response.accessToken)
 
@@ -55,19 +55,12 @@ function UserTokens ({ onAcquireToken }) {
       })
     }
 
-    // if (accToken)
-    // {
-    //   callAPI(accToken)
-    // }
-
-    
-
   }
   const getTokenSilent = async () => {
     setTokenStatus("Acquiring Token for Logged in User\n")
     setaccToken("")
     setidToken("")
-    const accessToken = instance.acquireTokenSilent({
+    instance.acquireTokenSilent({
       ...tokenRequest,
       account: accounts[0],
     }).then(response => {
@@ -76,7 +69,7 @@ function UserTokens ({ onAcquireToken }) {
         setidToken(response.idToken)
         setaccToken(response.accessToken)
         setTokenStatus("Acquired Token silently")
-        onAcquireToken(response.accessToken)
+        onAcquireToken(response.idToken, response.accessToken)
 
         //callAPI(response.accessToken)
 
@@ -95,11 +88,6 @@ function UserTokens ({ onAcquireToken }) {
   }
   
 
-   useEffect ( () => {
-     // getTokenSilent();
-
-   }, [])
-
   return (
     //   <div>
     //       Hello
@@ -112,55 +100,28 @@ function UserTokens ({ onAcquireToken }) {
 
     // </div>
 
-    <div >
-      <MyButton text="Get Tokens" variant="contained" color="primary" onClick={GetTokens}> </MyButton>
+    <div style={{ display: 'flex', flexDirection: 'column'}}>
       
-      <p></p>
-      
-      <div><Typography variant="subtitle2" gutterBottom>{tokenStatus}</Typography></div>
-      
-      <p></p>
-      
-        <Typography variant="overline">Access Token</Typography>
+      <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '10px', paddingTop: '10px'}}>
+        <div style={{flexGrow: 0, flexBasis: '12em'}}><MyButton text="Get Access Token" variant="contained" color="primary" onClick={GetTokens}> </MyButton></div>
+        <div style={{flexGrow: 0, }}><Typography variant="caption" gutterBottom>{tokenStatus}</Typography></div>
+      </div>
 
-      {accToken? 
-      
-          <div 
-          className="nobreak" 
-          style={{maxHeight: 200, width: 300, overflow: 'auto'}}> 
-          {accToken}
-          </div>
-          
-        : 
-        <p></p>
-        // <Typography variant="caption">No token</Typography>
-        }
-        <p>
-        <Typography variant="overline">ID Token</Typography>
-        </p>
-      {idToken? 
-        <div className="nobreak" style={{maxHeight: 200, width: 300, overflow: 'auto'}}>
-          {idToken}
-        </div> 
-        : 
-        <p></p>}
-      
-
-
-
-        {/* <p>Some user is signed in. {result.account.idTokenClaims.name}</p>
-        <div>
-          <small>
-            {JSON.stringify(result.account.idTokenClaims)}
-          </small>
+      <div style={{ display: 'flex', flexDirection: 'row', paddingBottom: '10px'}}>
+        <div style={{flexGrow: 0,  flexBasis: '12em'}}><Typography variant="overline" color="primary" >Access Token</Typography></div>
+        <div className="nobreak" style={{maxHeight: 200, width: 500, overflow: 'auto', flexGrow: 1, padding: '10px'}}> 
+            {accToken}
         </div>
-        <ul>
-          <li>Name: {result.account.idTokenClaims.name}</li>
-          <li>Surame: {result.account.idTokenClaims.family_name}</li>
-          <li>City: {result.account.idTokenClaims.city}</li>
-          <li>Job Title: {result.account.idTokenClaims.jobTitle}</li>
-          <li>Country: {result.account.idTokenClaims.country}</li>
-        </ul> */}
+      </div>
+
+      {/* <div style={{ display: 'flex', flexDirection: 'row'}}>
+        <div style={{flexGrow: 0, padding: '10px', flexBasis: '8em'}}><Typography variant="overline">ID Token</Typography></div>
+        <div className="nobreak" style={{maxHeight: 200, width: 300, overflow: 'auto',  flexGrow: 1, padding: '10px'}}>
+            {idToken}
+        </div> 
+      </div> */}
+
+
     </div>
   )
 }
