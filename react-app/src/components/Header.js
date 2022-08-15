@@ -9,20 +9,19 @@ import Typography from "@material-ui/core/Typography";
 
 import { useIsAuthenticated } from "@azure/msal-react";
 
+import { loginRequest } from '../authConfig';
+
 const Header = ({ title, onLogin }) => {
   const classes = useStyles();
-  const { instance, accounts, inProgress } = useMsal();
+  const { instance } = useMsal();
   const isAuthenticated = useIsAuthenticated();
 
   const LoginHandler = () => {
-    console.log("Trying to login via popup");
+  
     try {
-      const loginResponse = instance.loginPopup().then((response) => {
-        console.log(response);
+      instance.loginPopup(loginRequest).then((response) => {
         onLogin(response.idToken);
       });
-
-      console.log(loginResponse);
     } catch (err) {
       console.log(err);
     }
@@ -30,9 +29,7 @@ const Header = ({ title, onLogin }) => {
 
   const LogoutHandler = () => {
     try {
-      console.log("Trying to logout");
-      const logoutResponse = instance.logout();
-      console.log(logoutResponse);
+      instance.logout();
     } catch (err) {
       console.log(err);
     }

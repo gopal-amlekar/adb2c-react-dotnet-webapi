@@ -27,7 +27,7 @@ const UserProfile = ({idToken}) => {
           <Typography variant="subtitle1" color="error" >
             Log in to obtain and view Id token   
           </Typography>
-          <Typography variant="caption" color="info" >
+          <Typography variant="caption" color="textPrimary" >
             Note: Obtaining an access token also updates Id token
           </Typography>
         </div>

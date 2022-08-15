@@ -34,7 +34,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header title="ADB2C Demo app" onLogin={onLogin}></Header>
+      <Header title="ADB2C Demo (Protecting API) " onLogin={onLogin}></Header>
       <Intro width="100px"></Intro>
       <MainProfile idToken={idToken}></MainProfile>
     </ThemeProvider>
